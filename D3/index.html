@@ -31,9 +31,9 @@
         const xValue = d => d.population;
         const yValue = d => d.country;
         const render = data =>{
-            const xScale = d3.scaleLinear()
-                            .domain([0,d3.max(data,xValue)])
-                            .range([0,innerWidth]);
+            const xScale = d3.scaleLinear()                  //线性比例
+                            .domain([0,d3.max(data,xValue)]) //定义域
+                            .range([0,innerWidth]);          //值域
             // console.log(xScale.range());
             const yScale = d3.scaleBand()
                             .domain(data.map(yValue))
