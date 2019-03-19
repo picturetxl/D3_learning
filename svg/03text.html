@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>02path</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://d3js.org/d3.v5.js"></script>
+</head>
+
+<body>
+    <svg width="960" height="960">
+        <text x="100" y="150" fill="red">I love SVG</text>
+
+        <!-- rotate(度数 x，y) -->
+        <text x="60" y="50" fill="red" transform="rotate(60 30,50)">I love SVG</text>
+
+
+        <text x="10" y="20" style="fill:red;">Several lines:
+            <!-- 正常的x y -->
+            <tspan x="25" y="45">First line</tspan>
+            <tspan x="25" y="70">Second line</tspan>
+        </text>
+
+        <a xlink:href="" target="_blank">
+            <text x="150" y="15" fill="blue">I love SVG</text>
+        </a>
+    </svg>
+</body>
+
+</html>
