@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Page Title</title>
+</head>
+
+<body>
+  <svg width="960" height="500"></svg>
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <script>
+    var xScale = d3.scaleLinear().domain([1, 8]).range([20, 470]);
+    var yScale = d3.scaleLinear().domain([0, 40]).range([480, 20]);
+
+
+    d3.dsv(",", "movies.csv", function (d) {
+      return {
+        day: +d.day,
+        tianic: +d.tianic,
+        avator: +d.avator,
+        akira: +d.akira,
+        frozen: +d.frozen,
+        deliverance: +d.deliverance,
+        avengers: +d.avengers,
+      };
+    }).then(function (data) {
+      console.log(data[0]);
+      Object.keys(data[0]).forEach(key => {
+        console.log(key);
+        if (key != "day") {
+          var movieArea = d3.area()
+            .x(d => xScale(d.day))
+            .y0(d => yScale(d[key]))
+            .y1(d => yScale(-d[key]))
+            .curve(d3.curveCardinal);
+          d3.select("svg")
+            .append("path")
+            .style("id", key + "Area")
+            .attr("d", movieArea(data))
+            .attr("fill", "#75739F")
+            .attr("stroke", "#75739F")
+            .attr("stroke-width", 3)
+            .style("opacity", .75)
+            .style("fill-opacity",.5);
+        }
+      });
+    });
+
+  </script>
+
+</body>
+
+</html>

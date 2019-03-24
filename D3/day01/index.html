@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 
@@ -39,13 +41,10 @@
                             .domain(data.map(yValue))
                             .range([0,innerHeight])
                             .padding(0.2);
-
             const g = svg.append('g').attr('transform',`translate(${margin.left},${margin.top})`);
-
             g.append('g').call(d3.axisLeft(yScale));
             g.append('g').call(d3.axisBottom(xScale))
                         .attr('transform',`translate(0,${innerHeight})`);
-
             g.selectAll('rect').data(data)
                 .enter().append('rect')
                 .attr('y',d =>yScale(yValue(d)))
@@ -61,7 +60,6 @@
             // console.log(data);
             render(data);
         });
-
     </script>
 </body>
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Page Title</title>
+  <style>
+  svg{
+    margin-top: 20px;
+  }
+  </style>
+</head>
+
+<body>
+  <svg width="960" height="1000"></svg>
+  <script>src="https://cdnjs.com/libraries/d3-legend"</script>
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <script>
+    var fillScale = d3.scaleOrdinal()
+      .domain(["tianic", "avator", "akira", "frozen", "deliverance", "avengers"])
+      .range(["#fcd88a", "#cf7c1c", "#93c464d", "#75734F", "#5eafc6", "#41a368"]);
+    var xScale = d3.scaleLinear().domain([1, 4]).range([20, 960]);
+    var yScale = d3.scaleLinear().domain([0, 60]).range([480, 10]);
+    // var legendA = d3.legendColor().scale(fillScale);
+
+
+    d3.dsv(",", "movies.csv", function (d) {
+      return {
+        day: +d.day,
+        tianic: +d.tianic,
+        avator: +d.avator,
+        akira: +d.akira,
+        frozen: +d.frozen,
+        deliverance: +d.deliverance,
+        avengers: +d.avengers,
+      };
+    }).then(function (data) {
+      // console.log(data);
+      // console.log(data[0]);
+
+      Object.keys(data[0]).forEach(key => {
+        function simpleStacking(lineData, lineKey) {
+          var newHeight = 0;
+          Object.keys(lineData).every(key => {
+            if (key != "day") {
+              var plus = parseInt(lineData[key]);
+              newHeight = newHeight + plus;
+              // console.log(newHeight);
+              if (key === lineKey) {
+                return false;
+              }
+            }
+            return true;
+          });
+          return newHeight;
+        };
+        // console.log(key);
+        if (key !== "day") {
+          var movieArea = d3.area()
+            .x(d => xScale(d.day))
+            .y0(d => yScale(simpleStacking(d, key) - d[key]))
+            .y1(d => yScale(simpleStacking(d, key)))
+            .curve(d3.curveCardinal);
+          // d3.select("svg").append("g").attr("transform","translate(500,0")
+          // .call(legendA);
+          d3.select("svg")
+            .append("g")
+            .append("path")
+            .style("id", key + "Area")
+            .attr("d", movieArea(data))
+            .attr("fill", fillScale(key))
+            .attr("stroke", "#75739F")
+            .attr("stroke-width", 1)
+            .style("opacity", .75)
+            .style("fill-opacity", .5);
+        }
+      });
+
+    });
+
+
+
+  </script>
+
+</body>
+
+</html>
